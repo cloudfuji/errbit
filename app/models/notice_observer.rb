@@ -9,7 +9,7 @@ class NoticeObserver < Mongoid::Observer
       human_message += " see more at #{Rails.application.routes.url_helpers.app_err_notice_url(@app, @err, @notice, :host => ENV['BUSHIDO_DOMAIN'])}"
       event = {
         :category => :app,
-        :name     => :error,
+        :name     => :errored,
         :data     => {
           :human  => human_message,
           :source => "Errbit",
