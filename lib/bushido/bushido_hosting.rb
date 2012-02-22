@@ -11,7 +11,9 @@ module Errbit
       User.instance_eval do
         validates_presence_of   :ido_id
         validates_uniqueness_of :ido_id
+      end
 
+      User.class_eval do
         def bushido_extra_attributes(extra_attributes)
           self.name  = "#{extra_attributes['first_name'].to_s} #{extra_attributes['last_name'].to_s}"
           self.email = extra_attributes["email"]

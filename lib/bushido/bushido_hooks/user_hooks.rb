@@ -20,4 +20,16 @@ class BushidoUserHooks < Bushido::EventObserver
       User.exists?(:conditions => {::Devise.cas_username_column => ido_id}) and
       User.where(::Devise.cas_username_column => ido_id).destroy
   end
+
+  def user_updated
+    puts "Updating user based on incoming data #{params.inspect}"
+    puts "Devise username column: #{::Devise.cas_username_column}="
+    ido_id = params['data'].try(:[], 'ido_id')
+
+    if ido_id and User.exists?(:conditions => {::Devise.cas_username_column => ido_id}) 
+      user = User.where(::Devise.cas_username_column => ido_id).first
+      user.bushido_extra_attributes(params['data'])
+      user.save
+    end
+  end
 end
