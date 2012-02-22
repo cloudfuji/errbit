@@ -3,9 +3,7 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable,
-         :validatable, :token_authenticatable
+  devise *Errbit::Config.devise_modules
 
   field :email
   field :name
@@ -39,10 +37,17 @@ class User
     apps.all.include?(app)
   end
 
+  # Todo: Move this to a Bushido include file so Bushido-specific
+  # behavior isn't sitting in the models where it's not necessary
+  def bushido_extra_attributes(extra_attributes)
+    self.name  = "#{extra_attributes['first_name'].to_s} #{extra_attributes['last_name'].to_s}"
+    self.email = extra_attributes["email"]
+  end
+
   protected
 
-    def destroy_watchers
-      watchers.each(&:destroy)
-    end
+  def destroy_watchers
+    watchers.each(&:destroy)
+  end
 end
 

@@ -21,6 +21,33 @@ if ENV['HEROKU']
   }
 end
 
+# If Errbit is running on Heroku, config can be set from environment variables.
+if ENV['HOSTING_PLATFORM'] == "bushido"
+  puts "Loading Bushido config"
+  Errbit::Config.host = ENV['BUSHIDO_DOMAIN']
+  Errbit::Config.email_from = ENV['SMTP_USER']
+  Errbit::Config.email_at_notices = [1,3,10] #ENV['ERRBIT_EMAIL_AT_NOTICES']
+  Errbit::Config.confirm_resolve_err = true
+  Errbit::Config.user_has_ido_id = true
+  Errbit::Config.allow_comments_with_issue_tracker = true
+
+  Errbit::Config.smtp_settings = {
+    :address        => ENV["SMTP_USER"],
+    :port           => ENV["SMTP_PORT"],
+    :authentication => ENV["SMTP_AUTHENTICATION"],
+    :user_name      => ENV["SMTP_USER"],
+    :password       => ENV["SMTP_PASSWORD"],
+    :domain         => ENV["SMTP_DOMAIN"] 
+  }
+
+  Errbit::Config.devise_modules = [:bushido_authenticatable,
+                                   :rememberable,
+                                   :trackable,
+                                   :token_authenticatable]
+
+  puts Errbit::Config.inspect
+end
+
 # Use example config for test environment.
 default_config_file = Rails.root.join("config", "config.example.yml")
 config_file = Rails.env == "test" ? default_config_file : Rails.root.join("config", "config.yml")
@@ -34,13 +61,22 @@ if File.exists?(config_file)
   end
 # Raise an error if we are not running tests, not running on Heroku, and config.yml doesn't exist.
 elsif not ENV['HEROKU']
-  raise "Please copy 'config/config.example.yml' to 'config/config.yml' and configure your settings."
+  if ENV['HOSTING_PLATFORM'] != 'bushido'
+    raise "Please copy 'config/config.example.yml' to 'config/config.yml' and configure your settings."
+  end
 end
 
 # Set default settings from config.example.yml if key is missing from config.yml
 default_config = YAML.load_file(default_config_file)
 default_config.each do |k,v|
   Errbit::Config.send("#{k}=", v) if Errbit::Config.send(k) === nil
+end
+
+# Set default devise modules
+if Errbit::Config.devise_modules.nil?
+  Errbit::Config.devise_modules = [:database_authenticatable,
+                                   :recoverable, :rememberable, :trackable,
+                                   :validatable, :token_authenticatable]
 end
 
 # Set SMTP settings if given.

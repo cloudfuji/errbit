@@ -21,13 +21,14 @@
   = f.label :time_zone
   = f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones
 
-.required
-  = f.label :password
-  = f.password_field :password
-
-.required
-  = f.label :password_confirmation
-  = f.password_field :password_confirmation
+- unless Bushido::Platform.on_bushido?
+  .required
+    = f.label :password
+    = f.password_field :password
+  
+  .required
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
 
 - if current_user.admin?
   .checkbox
