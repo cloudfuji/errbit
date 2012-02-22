@@ -21,6 +21,11 @@ gem 'actionmailer_inline_css', "~> 1.3.0"
 gem 'kaminari'
 gem 'rack-ssl-enforcer'
 
+# Bushido-related deps
+gem 'devise_bushido_authenticatable'
+gem 'bushido'
+gem 'tane'
+
 platform :ruby do
   gem 'mongo', '= 1.3.1'
   gem 'bson', '= 1.3.1'
@@ -33,10 +38,10 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.6'
   gem 'webmock', :require => false
   gem 'fabrication'
-  unless ENV['TRAVIS']
-    gem 'ruby-debug', :platform => :mri_18
-    gem 'ruby-debug19', :platform => :mri_19, :require => 'ruby-debug'
-  end
+  # unless ENV['TRAVIS']
+  #   gem 'ruby-debug', :platform => :mri_18
+  #   gem 'ruby-debug19', :platform => :mri_19, :require => 'ruby-debug'
+  # end
   # gem 'rpm_contrib', :git => "git://github.com/bensymonds/rpm_contrib.git", :branch => "mongo-1.4.0_update"
 end
 
