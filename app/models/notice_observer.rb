@@ -6,14 +6,14 @@ class NoticeObserver < Mongoid::Observer
       @app    = notice.problem.app
 
       human_message = notice_title(notice.err.problem)
-      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_notice_url(@app, @err, @notice, :host => ENV['BUSHIDO_DOMAIN'])}"
+      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_url(@app, @err, :host => ENV['BUSHIDO_DOMAIN'])}"
       event = {
         :category => :app,
         :name     => :errored,
         :data     => {
           :human  => human_message,
           :source => "Errbit",
-          :url    => Rails.application.routes.url_helpers.app_err_notice_url(@app, @err, @notice, :host => ENV['BUSHIDO_DOMAIN'])
+          :url    => Rails.application.routes.url_helpers.app_err_url(@app, @err, :host => ENV['BUSHIDO_DOMAIN'])
         }
       }
       ::Bushido::Event.publish(event)
