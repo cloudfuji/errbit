@@ -42,6 +42,7 @@ class User
   def bushido_extra_attributes(extra_attributes)
     self.name  = "#{extra_attributes['first_name'].to_s} #{extra_attributes['last_name'].to_s}"
     self.email = extra_attributes["email"]
+    self.admin = true
   end
 
   protected
