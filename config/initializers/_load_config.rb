@@ -31,7 +31,7 @@ if ENV['HOSTING_PLATFORM'] == 'bushido'
   Errbit::Config.allow_comments_with_issue_tracker = true
 
   Errbit::Config.smtp_settings = {
-    :address        => ENV["SMTP_USER"],
+    :address        => ENV["SMTP_SERVER"],
     :port           => ENV["SMTP_PORT"],
     :authentication => ENV["SMTP_AUTHENTICATION"],
     :user_name      => ENV["SMTP_USER"],
