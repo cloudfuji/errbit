@@ -21,8 +21,7 @@ if ENV['HEROKU']
   }
 end
 
-# If Errbit is running on Heroku, config can be set from environment variables.
-if ENV['HOSTING_PLATFORM'] == "bushido"
+if ENV['HOSTING_PLATFORM'] == 'bushido'
   puts "Loading Bushido config"
   Errbit::Config.host = ENV['BUSHIDO_DOMAIN']
   Errbit::Config.email_from = ENV['SMTP_USER']
@@ -44,8 +43,6 @@ if ENV['HOSTING_PLATFORM'] == "bushido"
                                    :rememberable,
                                    :trackable,
                                    :token_authenticatable]
-
-  puts Errbit::Config.inspect
 end
 
 # Use example config for test environment.
