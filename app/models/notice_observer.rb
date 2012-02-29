@@ -21,7 +21,13 @@ class NoticeObserver < Mongoid::Observer
           :url              => Rails.application.routes.url_helpers.app_err_url(@app, @err, :host => ENV['BUSHIDO_DOMAIN'])
         }
       }
+
       ::Bushido::Event.publish(event)
+
+      @app.watchers.each do |watcher|
+        ido_id = watcher.ido_id
+        Bushido::User.notify(ido_id, "Site Error", human_message, "site_error") unless ido_id.blank?
+      end
     end
   end
 
