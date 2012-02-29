@@ -19,7 +19,7 @@ namespace :bushido do
     end
   end
   
-  desc "Run the initial setup for a busido app. Copies config files and seeds db."
+  desc "Run the initial setup for a Busido app. Copies config files and seeds db."
   task :install do
     Rake::Task['bushido:copy_configs'].execute
     puts "\n"
