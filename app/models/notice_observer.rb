@@ -24,8 +24,9 @@ class NoticeObserver < Mongoid::Observer
 
       ::Bushido::Event.publish(event)
 
+      puts "Notifying: #{@app.watchers.inspect}"
       @app.watchers.each do |watcher|
-        ido_id = watcher.ido_id
+        ido_id = watcher.user.ido_id
         Bushido::User.notify(ido_id, "Site Error", human_message, "site_error") unless ido_id.blank?
       end
     end
