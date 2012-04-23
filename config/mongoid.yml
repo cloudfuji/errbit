@@ -1,6 +1,0 @@
-# Mongoid Configuration for MongoHQ on Cloudfuji
-# ============================================
-
-development:
-  host: localhost
-  database: errbit_development
