@@ -1,8 +1,6 @@
-# Mongoid Configuration for MongoHQ on Bushido
+# Mongoid Configuration for MongoHQ on Cloudfuji
 # ============================================
 
 development:
-  uri: <%= ENV['MONGODB_URL'] %>
-
-production:
-  uri: <%= ENV['MONGODB_URL'] %>
+  host: localhost
+  database: errbit_development

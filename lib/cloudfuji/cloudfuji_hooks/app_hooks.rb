@@ -1,4 +1,4 @@
-class BushidoAppHooks < Bushido::EventObserver
+class CloudfujiAppHooks < Cloudfuji::EventObserver
   def app_claimed
     puts "Updating #{User.first.inspect} with incoming data #{params.inspect}"
     puts "Devise username column: #{::Devise.cas_username_column}="

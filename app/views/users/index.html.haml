@@ -1,5 +1,5 @@
 - content_for :title, 'Users'
-- if not Devise.on_bushido?
+- if not Devise.on_cloudfuji?
   - content_for :action_bar do
     %span= link_to('Add a New User', new_user_path, :class => 'add')
 

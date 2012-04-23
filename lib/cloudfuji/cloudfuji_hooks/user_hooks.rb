@@ -1,4 +1,4 @@
-class BushidoUserHooks < Bushido::EventObserver
+class CloudfujiUserHooks < Cloudfuji::EventObserver
   def user_added
     puts "Adding a new user with incoming data #{params.inspect}"
     puts "Devise username column: #{::Devise.cas_username_column}="
@@ -28,7 +28,7 @@ class BushidoUserHooks < Bushido::EventObserver
 
     if ido_id and User.exists?(:conditions => {::Devise.cas_username_column => ido_id}) 
       user = User.where(::Devise.cas_username_column => ido_id).first
-      user.bushido_extra_attributes(params['data'])
+      user.cloudfuji_extra_attributes(params['data'])
       user.save
     end
   end

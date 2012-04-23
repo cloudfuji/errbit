@@ -1,11 +1,11 @@
 require 'fileutils'
 
-namespace :bushido do
+namespace :cloudfuji do
   
   desc "Copys of example config files"
   task :copy_configs do
     configs = {
-      'mongoid.bushido.yml' => 'mongoid.yml'
+      'mongoid.cloudfuji.yml' => 'mongoid.yml'
     }
     
     puts "Copying example config files..."
@@ -21,7 +21,7 @@ namespace :bushido do
   
   desc "Run the initial setup for a Busido app. Copies config files and seeds db."
   task :install do
-    Rake::Task['bushido:copy_configs'].execute
+    Rake::Task['cloudfuji:copy_configs'].execute
     puts "\n"
     Rake::Task['db:seed'].invoke
     puts "\n"

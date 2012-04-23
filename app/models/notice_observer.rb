@@ -1,12 +1,12 @@
 class NoticeObserver < Mongoid::Observer
   def after_create(notice)
-    if ::Bushido::Platform.on_bushido?
+    if ::Cloudfuji::Platform.on_cloudfuji?
       @notice = notice
       @err    = notice.err
       @app    = notice.problem.app
 
       human_message = notice_title(notice.err.problem)
-      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_url(@app, @notice.problem, :host => ENV['BUSHIDO_DOMAIN'])}"
+      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_url(@app, @notice.problem, :host => ENV['CLOUDFUJI_DOMAIN'])}"
       event = {
         :category => :app,
         :name     => :errored,
@@ -18,16 +18,16 @@ class NoticeObserver < Mongoid::Observer
           :app_backtrace    => @notice.app_backtrace,
           :request          => @notice.request,
           :source           => "Errbit",
-          :url              => Rails.application.routes.url_helpers.app_err_url(@app, @err, :host => ENV['BUSHIDO_DOMAIN'])
+          :url              => Rails.application.routes.url_helpers.app_err_url(@app, @err, :host => ENV['CLOUDFUJI_DOMAIN'])
         }
       }
 
-      ::Bushido::Event.publish(event)
+      ::Cloudfuji::Event.publish(event)
 
       puts "Notifying: #{@app.watchers.inspect}"
       @app.watchers.each do |watcher|
         ido_id = watcher.user.ido_id
-        Bushido::User.notify(ido_id, "Site Error", human_message, "site_error") unless ido_id.blank?
+        Cloudfuji::User.notify(ido_id, "Site Error", human_message, "site_error") unless ido_id.blank?
       end
     end
   end

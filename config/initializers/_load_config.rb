@@ -21,9 +21,9 @@ if ENV['HEROKU']
   }
 end
 
-if ENV['HOSTING_PLATFORM'] == 'bushido'
-  puts "Loading Bushido config"
-  Errbit::Config.host = ENV['BUSHIDO_DOMAIN']
+if ENV['HOSTING_PLATFORM'] == 'cloudfuji'
+  puts "Loading Cloudfuji config"
+  Errbit::Config.host = ENV['CLOUDFUJI_DOMAIN']
   Errbit::Config.email_from = ENV['SMTP_USER']
   Errbit::Config.email_at_notices = [1,3,10] #ENV['ERRBIT_EMAIL_AT_NOTICES']
   Errbit::Config.confirm_resolve_err = true
@@ -39,11 +39,13 @@ if ENV['HOSTING_PLATFORM'] == 'bushido'
     :domain         => ENV["SMTP_DOMAIN"] 
   }
 
-  Errbit::Config.devise_modules = [:bushido_authenticatable,
+  Errbit::Config.devise_modules = [:cloudfuji_authenticatable,
                                    :rememberable,
                                    :trackable,
                                    :token_authenticatable]
 end
+
+puts "Devise modules: #{Errbit::Config.devise_modules.inspect}"
 
 # Use example config for test environment.
 default_config_file = Rails.root.join("config", "config.example.yml")
@@ -58,7 +60,7 @@ if File.exists?(config_file)
   end
 # Raise an error if we are not running tests, not running on Heroku, and config.yml doesn't exist.
 elsif not ENV['HEROKU']
-  if ENV['HOSTING_PLATFORM'] != 'bushido'
+  if ENV['HOSTING_PLATFORM'] != 'cloudfuji'
     raise "Please copy 'config/config.example.yml' to 'config/config.yml' and configure your settings."
   end
 end

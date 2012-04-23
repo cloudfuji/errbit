@@ -1,18 +1,18 @@
 class ErrObserver < Mongoid::Observer
   def after_create(err)
-    if ::Bushido::Platform.on_bushido?
+    if ::Cloudfuji::Platform.on_cloudfuji?
       human_message = issue_title(err.problem)
-      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_url(err.problem.app, err, :host => ENV['BUSHIDO_DOMAIN'])}"
+      human_message += " see more at #{Rails.application.routes.url_helpers.app_err_url(err.problem.app, err, :host => ENV['CLOUDFUJI_DOMAIN'])}"
       event = {
         :category => :app,
         :name     => :errored,
         :data     => {
           :human  => human_message,
           :source => "Errbit",
-          :url    => Rails.application.routes.url_helpers.app_err_url(err.problem.app, err, :host => ENV['BUSHIDO_DOMAIN'])
+          :url    => Rails.application.routes.url_helpers.app_err_url(err.problem.app, err, :host => ENV['CLOUDFUJI_DOMAIN'])
         }
       }
-      ::Bushido::Event.publish(event)
+      ::Cloudfuji::Event.publish(event)
     end
   end
 

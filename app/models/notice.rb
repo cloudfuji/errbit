@@ -96,6 +96,19 @@ class Notice
     Mailer.err_notification(self).deliver
   end
 
+  def publish_cloudfuji_event
+    human_message = "App at #{server_environment['hostname']} error"
+    ::Cloudfuji::Event.publish({
+        :category => :app,
+        :name     => :error,
+        :data     => {
+          :human  => human_message,
+          :source => "Errbit",
+          :url    => "#{ENV['PUBLIC_URL']}/#tickets/#{self.to_param}"
+        }
+      })
+  end
+
   # Backtrace containing only files from the app itself (ignore gems)
   def app_backtrace
     backtrace.select { |l| l && l['file'] && l['file'].include?("[PROJECT_ROOT]") }
