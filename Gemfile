@@ -6,7 +6,7 @@ gem 'mongoid', '~> 2.2.2'
 
 gem 'haml'
 gem 'htmlentities', "~> 4.3.0"
-gem 'devise', '~> 1.4.0'
+gem 'devise', '~> 1.5.0'
 gem 'lighthouse-api'
 gem 'oruen_redmine_client', :require => 'redmine_client'
 gem 'mongoid_rails_migrations'
@@ -21,10 +21,12 @@ gem 'actionmailer_inline_css', "~> 1.3.0"
 gem 'kaminari'
 gem 'rack-ssl-enforcer'
 
-# Bushido-related deps
-gem 'devise_bushido_authenticatable'
-gem 'bushido'
-gem 'tane'
+# Cloudfuji-related deps
+gem 'devise_cloudfuji_authenticatable'
+gem 'cloudfuji'
+
+# Cloudfuji development
+# gem 'tane'
 
 platform :ruby do
   gem 'mongo', '= 1.3.1'
