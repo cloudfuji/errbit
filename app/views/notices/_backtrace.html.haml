@@ -1,0 +1,14 @@
+.window
+  %table.backtrace
+    - lines.each do |line|
+      - path = File.dirname(line['file'])
+      - path = path == "." ? "" : path + '/'
+      - file = File.basename(line['file'])
+      - file = "#{file}:#{line['number']}" unless line['number'].blank?
+      %tr
+        %td.line{:class => (Notice.in_app_backtrace_line?(line) ? 'in-app' : nil)}
+          %span.path>= path
+          %span.file= link_to_source_file(@app, line, file).html_safe
+          &rarr;
+          %span.method= line['method']
+
